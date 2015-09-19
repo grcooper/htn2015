@@ -73,7 +73,6 @@ window.onload = function() {
         game.add.sprite(0, 0, 'sky');
         characters = game.add.group();
         characters.enableBody = true;
-        yummy.enableBody = true;
         //  Our controls.
         cursor = game.input.keyboard.createCursorKeys();
 
@@ -87,6 +86,7 @@ window.onload = function() {
                             player.org.timeout = 0;
                         }
                         yummy = game.add.group();
+                        yummy.enableBody = true;
                         for (var i = 0; i < 30; i++) {
                             var meat = yummy.create(game.world.width * Math.random() * 0.95,
                                 game.world.height * Math.random(),
