@@ -79,6 +79,7 @@ window.onload = function() {
                         }
                         start = true;
                         yummy = game.add.group();
+                        yummy.enableBody = true;
                         for (var i = 0; i < 30; i++) {
                             var meat = yummy.create(game.world.width * Math.random() * 0.95,
                                 game.world.height * Math.random(),
