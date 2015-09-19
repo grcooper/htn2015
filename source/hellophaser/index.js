@@ -80,14 +80,15 @@ window.onload = function() {
                         player.org = new createOrganism_A(getStrValue(), getIntValue(), getSpeedValue());
                         player.org.timeout = 0;
                     }
-                    start = true;
-		    }
-                    	yummy = game.add.group();
+                                 	yummy = game.add.group();
 	for(var i = 0; i < 30; i++){
 	  var meat = yummy.create(game.world.width * Math.random() * 0.95, 
                               game.world.height * Math.random(), 
                               'meat');
 	}
+                    start = true;
+		    }
+   
     }
                 }
             }
