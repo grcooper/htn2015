@@ -12,9 +12,29 @@
         return organism;
     }
 
+
+function getStrValue() {
+    var strValue = document.getElementById("inputStrength").value;
+    alert(strValue);
+}
+
+function getIntValue() {
+    var intValue = document.getElementById("inputIntelligence").value;
+    alert(intValue);
+}
+
+function getSpeedValue() {
+    var speedValue = document.getElementById("inputSpeed").value;
+    alert(speedValue);
+}
+
+ 
+
+
     window.onload = function() {
 
         var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create });
+        
 
         function preload () {
 
