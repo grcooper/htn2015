@@ -61,11 +61,9 @@ window.onload = function() {
         //Background
         game.add.sprite(0, 0, 'sky');
         characters = game.add.group();
+        characters.enableBody = true;
         //  Our controls.
         cursor = game.input.keyboard.createCursorKeys();
-    }
-
-    function update() {
 
         if (!start) {
             game.input.keyboard.onDownCallback = function(e) {
@@ -78,7 +76,12 @@ window.onload = function() {
                     start = true;
                 }
             }
-        } else {
+        }
+    }
+
+    function update() {
+
+        if (start) {
             characters.forEach(function(char) {
                 //loop through all characters
                 var xdirection;
@@ -103,12 +106,12 @@ window.onload = function() {
                     char.org.timeout += 1;
                 }
 
-                if (char.body.x >= (WIDTH - char.body.width)) {
+                if (char.body.x >= (WIDTH - char.width)) {
                     char.body.velocity.x = char.org.speed * -20;
                 } else if (char.body.x <= 0) {
                     char.body.velocity.x = char.org.speed * 20;
                 }
-                if (char.body.y >= (HEIGHT - char.body.height)) {
+                if (char.body.y >= (HEIGHT - char.height)) {
                     char.body.velocity.y = char.org.speed * -20;
                 } else if (char.body.y <= 0) {
                     char.body.velocity.y = char.org.speed * 20;
