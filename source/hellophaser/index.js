@@ -122,20 +122,18 @@ window.onload = function() {
                 }
 
                 if (char.body.x >= (WIDTH - char.width)) {
-                    char.body.velocity.x = char.org.speed * -20;
+                    char.body.velocity.x = char.org.speed;
                 } else if (char.body.x <= 0) {
-                    char.body.velocity.x = char.org.speed * 20;
+                    char.body.velocity.x = char.org.speed;
                 }
                 if (char.body.y >= (HEIGHT - char.height)) {
-                    char.body.velocity.y = char.org.speed * -20;
+                    char.body.velocity.y = char.org.speed;
                 } else if (char.body.y <= 0) {
-                    char.body.velocity.y = char.org.speed * 20;
+                    char.body.velocity.y = char.org.speed;
                 }
             });
         }
     }
-}
-
 function chooseDir(currentCell) {
     var intel = currentCell.intelligence;
     var str = currentCell.strength;
@@ -146,12 +144,14 @@ function chooseDir(currentCell) {
 
     var dir = {x: 0, y: 0};
 
-    if (smartness > 0.3) {
-        var len = characters.children.length();
+    if (smartness > 0.2) {
+	console.log("hi");
+        var len = characters.length;
         var found = false;
         for (var i = 0; i < len; i++) {
-            var ex = characters.children[i].body.x;
-            var ey = characters.children[i].body.y;
+	    console.log(characters.children[i]);
+            var ex = characters.children[i].x;
+            var ey = characters.children[i].y;
             if (Math.abs(x - ex) < range && Math.abs(y - ey) < range) {
                 var estr = characters.children[i].strength;
                 if (estr > str) {
@@ -178,3 +178,6 @@ function chooseDir(currentCell) {
     }
     return dir;
 }
+}
+
+
