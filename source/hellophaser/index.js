@@ -1,9 +1,13 @@
+var NAMECOUNTER = 0;
+
 function organism(id, str, intl, speed) {
     //Creates new organism
     this.id = id;
     this.strength = str;
     this.intelligence = intl;
     this.speed = speed;
+    this.name = NAMECOUNTER;
+    NAMECOUNTER++;
 }
 
 function createOrganism_A(id, str, intl, speed) {
