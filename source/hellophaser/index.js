@@ -200,8 +200,9 @@ window.onload = function() {
             for (var i = 0; i < len; i++) {
                 var ex = characters.children[i].x;
                 var ey = characters.children[i].y;
-                if (currentCell.org.name != characters.children[i].org.name) {
+                if (currentCell.org.name != characters.children[i].org.name && currentCell.org.id != characters.children[i].org.id) {
                     if (Math.abs(x - ex) < range && Math.abs(y - ey) < range) {
+		    console.log("range");
                         var estr = characters.children[i].org.strength;
                         if (estr > str) {
 			    var xdiff = ex - x;
@@ -223,8 +224,8 @@ window.onload = function() {
             }
         }
         if (found == false) {
-            dir.x = Math.random();
-            dir.y = Math.random();
+            dir.x = Math.random() - 0.5;
+            dir.y = Math.random() - 0.5;
             var len = Math.sqrt((dir.x * dir.x) + (dir.y * dir.y));
             dir.x = dir.x / len;
             dir.y = dir.y / len;
