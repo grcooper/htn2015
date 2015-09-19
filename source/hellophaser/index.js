@@ -94,8 +94,15 @@ window.onload = function() {
 
     }
 
+    function collisionHandler(e1, e2) {
+        console.log(e1);
+        console.log(e2);
+    }
+
 
     function update() {
+
+        game.physics.arcade.collide(characters, characters, collisionHandler, null, this);
 
         if (start) {
             characters.forEach(function(char) {
