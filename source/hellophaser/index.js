@@ -134,7 +134,7 @@ window.onload = function() {
             e1.strength -= 2;
             e2.strength -= 2;
 
-            return organism;
+	   return organism;
         }
     }
 
