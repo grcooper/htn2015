@@ -1,20 +1,14 @@
 
-    function Organism(str, intl, speed){
+    function organism(str, int, speed){
         //Creates new organism
         this.strength = str;
         this.intelligence = intl;
         this.speed = speed;
-        this.timeout = 0;
     }
 
     function createOrganism_A(){
         //Make new organism with hard coded stats
-        var organism = new Organism(5, 5, 5);
-        return organism;
-    }
-
-    function createOrganism_B(){
-        var organism = new Organism(2, 3, 8);
+        var organism = new organism();
         return organism;
     }
 
@@ -28,13 +22,31 @@
     var STARTORG = 5;
     window.onload = function() {
 
-        var game = new Phaser.Game(WIDTH, HEIGHT, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+function getStrValue() {
+    var strValue = document.getElementById("inputStrength").value;
+    alert(strValue);
+}
 
+function getIntValue() {
+    var intValue = document.getElementById("inputIntelligence").value;
+    alert(intValue);
+}
+
+function getSpeedValue() {
+    var speedValue = document.getElementById("inputSpeed").value;
+    alert(speedValue);
+}
+
+    window.onload = function() {
+
+        var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create });
+        
         function preload () {
 
             game.load.image('sky', 'assets/sky.png');
             game.load.image('logo', 'phaser.png');
             game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+
 
         }
 
@@ -45,7 +57,10 @@
 
             //Background
             game.add.sprite(0, 0, 'sky');
+           
+            player = game.add.sprite(32, game.world.height - 150, 'dude');
 
+<<<<<<< HEAD
             characters = game.add.group();
 	    for(var i = 0; i < STARTORG; i++){
 	      player = characters.create(game.world.width * Math.random(), game.world.height * Math.random(), 'dude');
@@ -95,6 +110,8 @@
 		  char.body.velocity.y = char.org.speed * 20;
 		}
             });
+=======
+>>>>>>> e971b4f8015a577b1311e7f1e90d1f1d8c181fc5
 
         }
 
