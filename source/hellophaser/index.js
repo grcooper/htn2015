@@ -105,7 +105,8 @@ window.onload = function() {
             var intelligence = (e1.intelligence + e2.intelligence) / 2;
             var speed = e1.speed;
 
-            var organism = new Organism(e1.id, strength, intelligence, speed);
+            player = characters.create(game.world.width * Math.random(), game.world.height * Math.random(), 'dude');
+            player.org = new Organism(e1.id, strength, intelligence, speed);
 
             // if (e1.intelligence < e2.intelligence) {
             //     intelligence = e1.intelligence * 1.1;
