@@ -38,8 +38,8 @@ function getSpeedValue() {
 }
 
 function eatsMeat(organism, meat) {
-  meat.kill();
-  organism.strength+=5;
+    meat.kill();
+    organism.strength += 5;
 }
 
 window.onload = function() {
@@ -55,7 +55,7 @@ window.onload = function() {
         game.load.image('sky', 'assets/sky.png');
         game.load.image('logo', 'phaser.png');
         game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
-	game.load.image('meat', 'assets/food.png');
+        game.load.image('meat', 'assets/food.png');
 
     }
 
@@ -74,26 +74,26 @@ window.onload = function() {
         if (!start) {
             game.input.keyboard.onDownCallback = function(e) {
                 if (e.keyCode === 13) {
-		    if(!start){
-                    for (var i = 0; i < STARTORG; i++) {
-                        player = characters.create(game.world.width * Math.random(), game.world.height * Math.random(), 'dude');
-                        player.org = new createOrganism_A(getStrValue(), getIntValue(), getSpeedValue());
-                        player.org.timeout = 0;
+                    if (!start) {
+                        for (var i = 0; i < STARTORG; i++) {
+                            player = characters.create(game.world.width * Math.random(), game.world.height * Math.random(), 'dude');
+                            player.org = new createOrganism_A(getStrValue(), getIntValue(), getSpeedValue());
+                            player.org.timeout = 0;
+                        }
+                        yummy = game.add.group();
+                        for (var i = 0; i < 30; i++) {
+                            var meat = yummy.create(game.world.width * Math.random() * 0.95,
+                                game.world.height * Math.random(),
+                                'meat');
+                        }
+                        start = true;
                     }
-                                 	yummy = game.add.group();
-	for(var i = 0; i < 30; i++){
-	  var meat = yummy.create(game.world.width * Math.random() * 0.95, 
-                              game.world.height * Math.random(), 
-                              'meat');
-	}
-                    start = true;
-		    }
-   
-    }
+
                 }
             }
-            
         }
+
+    }
 
 
     function update() {
