@@ -22,8 +22,8 @@ function TextField(x, y, length, sprite) {
 
 TextField.prototype.keyPress = function(data) {
 
-    if(this.selected) {
-        switch(data.keyCode) {
+    if (this.selected) {
+        switch (data.keyCode) {
             case 8:
                 this.textData = this.textData.substring(0, this.textData.length - 1);
                 this.myText.text = this.textData;
