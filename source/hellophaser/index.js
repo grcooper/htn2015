@@ -7,6 +7,7 @@ function organism(id, str, intl, speed) {
     this.intelligence = intl;
     this.speed = speed;
     this.name = NAMECOUNTER;
+    this.dir = {x: 0, y:0};
     NAMECOUNTER++;
 }
 
@@ -106,7 +107,7 @@ window.onload = function() {
         // refer to World.js line 393
         // https://github.com/photonstorm/phaser/blob/v2.4.3/src/physics/arcade/World.js
         // ?? do something with collideCallback, processCallback, callbackContext
-        if (e1.id === e2.id) {
+        /*if (e1.id === e2.id) {
             var strength = (e1.strength + e2.strength) / 2;
             var intelligence = (e1.intelligence + e2.intelligence) / 2;
             var speed = e1.speed;
@@ -136,9 +137,7 @@ window.onload = function() {
             // both parents remaining life span decreases
             e1.strength -= 2;
             e2.strength -= 2;
-
-            return organism;
-        }
+        }*/
     }
 
     function eatsMeat(organism, meat) {
@@ -161,23 +160,22 @@ window.onload = function() {
 
                 if (char.org.timeout == 30) {
                     char.org.timeout = 0;
-                    var dir = chooseDir(char);
-                    console.log(dir);
-                    char.body.velocity.x = char.org.speed * dir.x;
-                    char.body.velocity.y = char.org.speed * dir.y;
+                    char.org.dir = chooseDir(char);
+                    char.body.velocity.x = char.org.speed * char.org.dir.x;
+                    char.body.velocity.y = char.org.speed * char.org.dir.y;
                 } else {
                     char.org.timeout += 1;
                 }
 
                 if (char.body.x >= (WIDTH - char.width)) {
-                    char.body.velocity.x = char.org.speed;
+                    char.body.velocity.x = char.org.speed * -char.org.dir.x;
                 } else if (char.body.x <= 0) {
-                    char.body.velocity.x = char.org.speed;
+                    char.body.velocity.x = char.org.speed * -char.org.dir.x;
                 }
                 if (char.body.y >= (HEIGHT - char.height)) {
-                    char.body.velocity.y = char.org.speed;
+                    char.body.velocity.y = char.org.speed * -char.org.dir.y;
                 } else if (char.body.y <= 0) {
-                    char.body.velocity.y = char.org.speed;
+                    char.body.velocity.y = char.org.speed * -char.org.dir.y;
                 }
             });
         }
