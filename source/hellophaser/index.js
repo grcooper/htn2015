@@ -24,14 +24,13 @@
 
     window.onload = function() {
 
-        var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create });
+        var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
         function preload () {
 
             game.load.image('sky', 'assets/sky.png');
             game.load.image('logo', 'phaser.png');
             game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
-
 
         }
 
@@ -42,9 +41,19 @@
 
             //Background
             game.add.sprite(0, 0, 'sky');
-           
-            player = game.add.sprite(32, game.world.height - 150, 'dude');
 
+            characters = game.add.group();
+            player = characters.create(32, game.world.height - 150, 'dude');
+
+
+
+        }
+
+        function update () {
+       
+            characters.forEach(function(char){
+                //loop through all characters
+            });
 
         }
 
