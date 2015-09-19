@@ -1,6 +1,6 @@
 # htn2015
 
-We are using a nodejs server so you will need node and npm.
+We are using a nodejs server so you will need node and npm!
 
 We are using http-server located here:
 
