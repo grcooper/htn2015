@@ -19,20 +19,21 @@ function createOrganism_C() {
 var WIDTH = 800;
 var HEIGHT = 600;
 var STARTORG = 5;
+var start = false;
 
 function getStrValue() {
     var strValue = document.getElementById("inputStrength").value;
-    alert(strValue);
+    return strValue;
 }
 
 function getIntValue() {
     var intValue = document.getElementById("inputIntelligence").value;
-    alert(intValue);
+    return intValue;
 }
 
 function getSpeedValue() {
     var speedValue = document.getElementById("inputSpeed").value;
-    alert(speedValue);
+    return speedValue;
 }
 
 window.onload = function() {
@@ -59,15 +60,28 @@ window.onload = function() {
 
         //Background
         game.add.sprite(0, 0, 'sky');
-
-        for (var i = 0; i < STARTORG; i++) {
-            player = characters.create(game.world.width * Math.random(), game.world.height * Math.random(), 'dude');
-            player.org = new createOrganism_A(5, 5, 5);
-            player.org.timeout = 0;
-        }
+        characters = game.add.group();
+	//  Our controls.
+	cursor = game.input.keyboard.createCursorKeys();
     }
 
     function update() {
+	game.input.keyboard.onDownCallback = function(e) {
+	    
+	}
+	if(!start){
+	  game.input.keyboard.onDownCallback = function(e) {
+	  if(e.keyCode === 13){
+	    for (var i = 0; i < STARTORG; i++) {
+	      player = characters.create(game.world.width * Math.random(), game.world.height * Math.random(), 'dude');
+	      player.org = new createOrganism_A(getStrValue(), getIntValue(), getSpeedValue());
+	      player.org.timeout = 0;
+	    }
+	      start = true;
+	    }
+	  }
+	}
+	else{
         characters.forEach(function(char) {
             //loop through all characters
             var xdirection;
@@ -103,5 +117,6 @@ window.onload = function() {
                 char.body.velocity.y = char.org.speed * 20;
             }
         });
+      }
     }
 }
