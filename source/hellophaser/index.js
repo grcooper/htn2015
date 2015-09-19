@@ -82,14 +82,18 @@ window.onload = function() {
                     }
                     start = true;
 		    }
-                }
-            }
-        }
-	yummy = game.add.group();
+                    	yummy = game.add.group();
 	for(var i = 0; i < 30; i++){
-	  var meat = yummy.create(i*100, 0, 'meat');
+	  var meat = yummy.create(game.world.width * Math.random(), 
+                              game.world.height * Math.random(), 
+                              'meat');
 	}
     }
+                }
+            }
+            
+        }
+
 
     function update() {
 
