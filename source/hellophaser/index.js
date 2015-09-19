@@ -186,18 +186,17 @@ window.onload = function() {
         var str = currentCell.org.strength;
         var x = currentCell.body.x;
         var y = currentCell.body.y;
-        var range = intel * 30; // 30 is arbitrary
+        var range = intel * 8; // 8 is arbitrary
         var smartness = intel * Math.random();
 
         var dir = {
             x: 0,
             y: 0
         };
-
+	var found = false;
         if (smartness > 0.2) {
             console.log("hi");
             var len = characters.length;
-            var found = false;
             for (var i = 0; i < len; i++) {
                 var ex = characters.children[i].x;
                 var ey = characters.children[i].y;
@@ -205,13 +204,17 @@ window.onload = function() {
                     if (Math.abs(x - ex) < range && Math.abs(y - ey) < range) {
                         var estr = characters.children[i].org.strength;
                         if (estr > str) {
-                            var len = Math.sqrt((x * x) + (y * y));
-                            dir.x = (ex - x) / len;
-                            dir.y = (ey - y) / len;
+			    var xdiff = ex - x;
+			    var ydiff = ey - y;
+                            var len = Math.sqrt((xdiff * xdiff) + (ydiff * ydiff));
+                            dir.x = -(xdiff) / len;
+                            dir.y = -(ydiff) / len;
                         } else {
-                            var len = Math.sqrt((x * x) + (y * y));
-                            dir.x = -(ex - x) / len;
-                            dir.y = -(ey - y) / len;
+			    var xdiff = ex - x;
+			    var ydiff = ey - y;
+                            var len = Math.sqrt((xdiff * xdiff) + (ydiff * ydiff));
+                            dir.x = (xdiff) / len;
+                            dir.y = (ydiff) / len;
                         }
                         found = true;
                         break;
@@ -222,7 +225,7 @@ window.onload = function() {
         if (found == false) {
             dir.x = Math.random();
             dir.y = Math.random();
-            var len = Math.sqrt((x * x) + (y * y));
+            var len = Math.sqrt((dir.x * dir.x) + (dir.y * dir.y));
             dir.x = dir.x / len;
             dir.y = dir.y / len;
         }
