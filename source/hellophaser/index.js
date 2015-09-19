@@ -68,12 +68,14 @@ window.onload = function() {
         if (!start) {
             game.input.keyboard.onDownCallback = function(e) {
                 if (e.keyCode === 13) {
+		    if(!start){
                     for (var i = 0; i < STARTORG; i++) {
                         player = characters.create(game.world.width * Math.random(), game.world.height * Math.random(), 'dude');
                         player.org = new createOrganism_A(getStrValue(), getIntValue(), getSpeedValue());
                         player.org.timeout = 0;
                     }
                     start = true;
+		    }
                 }
             }
         }
