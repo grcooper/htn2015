@@ -1,0 +1,20 @@
+Traits
+-What those traits do
+-ow do things start/die
+
+Strength
+- if you create a cell, cell w/ higher strength wins 
+
+Intelligence
+- determines path
+
+Speed
+- obvious
+
+Environments
+- World
+    - Array of Civs
+        - Array of cells
+                - Strength, intelligence, speed
+                
+(also extra: some cells do better/worse in the environment)
