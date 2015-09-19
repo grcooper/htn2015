@@ -101,8 +101,6 @@ window.onload = function() {
     }
 
     function collisionHandler(e1, e2) {
-        console.log(e1);
-        console.log(e2);
 
         // refer to World.js line 393
         // https://github.com/photonstorm/phaser/blob/v2.4.3/src/physics/arcade/World.js
@@ -198,10 +196,10 @@ function chooseDir(currentCell) {
         var len = characters.length;
         var found = false;
         for (var i = 0; i < len; i++) {
-	    console.log(characters.children[i]);
             var ex = characters.children[i].x;
             var ey = characters.children[i].y;
-            if (Math.abs(x - ex) < range && Math.abs(y - ey) < range) {
+            if(currentCell.org.name != characters.children[i].org.name){
+	    if (Math.abs(x - ex) < range && Math.abs(y - ey) < range) {
                 var estr = characters.children[i].org.strength;
                 if (estr > str) {
 		    var len = Math.sqrt((x * x) + (y * y));
@@ -216,6 +214,7 @@ function chooseDir(currentCell) {
 		found = true;
 		break;
             }
+	    }
         }
     }
     if(found == false){
