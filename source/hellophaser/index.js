@@ -17,11 +17,6 @@ function createOrganism_A(id, str, intl, speed) {
     return org;
 }
 
-function createOrganism_C() {
-    var organism = new Organism(6, 1, 4);
-    return organism;
-}
-
 var WIDTH = 800;
 var HEIGHT = 600;
 var STARTORG = 5;
@@ -86,6 +81,11 @@ window.onload = function() {
                             player.org = new createOrganism_A(1, getStrValue(), getIntValue(), getSpeedValue());
                             player.org.timeout = 0;
                         }
+                        for (var i = 0; i < STARTORG; i++) {
+                            player = characters.create(game.world.width * Math.random(), game.world.height * Math.random(), 'OrganismB');
+                            player.org = new createOrganism_A(2, getStrValue(), getIntValue(), getSpeedValue());
+                            player.org.timeout = 0;
+                        }
                         yummy = game.add.group();
                         yummy.enableBody = true;
                         for (var i = 0; i < 30; i++) {
@@ -103,6 +103,16 @@ window.onload = function() {
     }
 
     function collisionHandler(e1, e2) {
+
+          if(e1.org.id != e2.org.id){
+            if(e1.org.strength > e2.org.strength){
+                e2.kill();
+            }
+            else {
+                e1.kill();
+            }
+          }
+        
 
         // refer to World.js line 393
         // https://github.com/photonstorm/phaser/blob/v2.4.3/src/physics/arcade/World.js
@@ -195,14 +205,14 @@ window.onload = function() {
         };
 	var found = false;
         if (smartness > 0.2) {
-            console.log("hi");
+           // console.log("hi");
             var len = characters.length;
             for (var i = 0; i < len; i++) {
                 var ex = characters.children[i].x;
                 var ey = characters.children[i].y;
                 if (currentCell.org.name != characters.children[i].org.name && currentCell.org.id != characters.children[i].org.id) {
                     if (Math.abs(x - ex) < range && Math.abs(y - ey) < range) {
-		    console.log("range");
+		    //console.log("range");
                         var estr = characters.children[i].org.strength;
                         if (estr > str) {
 			    var xdiff = ex - x;
