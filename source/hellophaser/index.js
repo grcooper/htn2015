@@ -1,26 +1,25 @@
 
-    function organism(str, int, speed){
+function organism(str, intl, speed){
         //Creates new organism
         this.strength = str;
         this.intelligence = intl;
         this.speed = speed;
-    }
+}
 
-    function createOrganism_A(){
+function createOrganism_A(str, intl, speed){
         //Make new organism with hard coded stats
-        var organism = new organism();
-        return organism;
-    }
+        var org = new organism(str, intl, speed);
+        return org;
+}
 
-    function createOrganism_C(){
+function createOrganism_C(){
         var organism = new Organism(6, 1, 4);
         return organism;
-    }
+}
   
-    var WIDTH = 800;
-    var HEIGHT = 600;
-    var STARTORG = 5;
-    window.onload = function() {
+var WIDTH = 800;
+var HEIGHT = 600;
+var STARTORG = 5;
 
 function getStrValue() {
     var strValue = document.getElementById("inputStrength").value;
@@ -37,9 +36,9 @@ function getSpeedValue() {
     alert(speedValue);
 }
 
-    window.onload = function() {
+window.onload = function() {
 
-        var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create });
+        var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update});
         
         function preload () {
 
@@ -58,18 +57,14 @@ function getSpeedValue() {
             //Background
             game.add.sprite(0, 0, 'sky');
            
-            player = game.add.sprite(32, game.world.height - 150, 'dude');
-
-<<<<<<< HEAD
-            characters = game.add.group();
 	    for(var i = 0; i < STARTORG; i++){
 	      player = characters.create(game.world.width * Math.random(), game.world.height * Math.random(), 'dude');
-	      player.org = new createOrganism_A();
-	    }
+	      player.org = new createOrganism_A(5,5,5);
+	      player.org.timeout = 0;
+	    } 
         }
 
         function update () {
-       
             characters.forEach(function(char){
                 //loop through all characters
                 var xdirection;
@@ -110,10 +105,5 @@ function getSpeedValue() {
 		  char.body.velocity.y = char.org.speed * 20;
 		}
             });
-=======
->>>>>>> e971b4f8015a577b1311e7f1e90d1f1d8c181fc5
-
-        }
-
-    };
-
+	  }
+	}
