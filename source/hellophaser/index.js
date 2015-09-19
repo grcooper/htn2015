@@ -148,24 +148,12 @@ window.onload = function() {
         if (start) {
             characters.forEach(function(char) {
                 //loop through all characters
-                var xdirection;
-                var ydirection;
-                xdirection = Math.round(Math.random());
-                ydirection = Math.round(Math.random());
-
                 if (char.org.timeout == 30) {
                     char.org.timeout = 0;
-                    if (xdirection) {
-                        char.body.velocity.x = char.org.speed * 20;
-                    } else {
-                        char.body.velocity.x = char.org.speed * -20;
-                    }
-
-                    if (ydirection) {
-                        char.body.velocity.y = char.org.speed * 20;
-                    } else {
-                        char.body.velocity.y = char.org.speed * -20;
-                    }
+		    var dir = chooseDir(char);
+		    console.log(dir);
+                    char.body.velocity.x = char.org.speed * dir.x;
+		    char.body.velocity.y = char.org.speed * dir.y;
                 } else {
                     char.org.timeout += 1;
                 }
@@ -183,4 +171,47 @@ window.onload = function() {
             });
         }
     }
+}
+
+function chooseDir(currentCell) {
+    var intel = currentCell.intelligence;
+    var str = currentCell.strength;
+    var x = currentCell.body.x;
+    var y = currentCell.body.y;
+    var range = intel * 30; // 30 is arbitrary
+    var smartness = intel * Math.random();
+
+    var dir = {x: 0, y: 0};
+
+    if (smartness > 0.3) {
+        var len = characters.children.length();
+        var found = false;
+        for (var i = 0; i < len; i++) {
+            var ex = characters.children[i].body.x;
+            var ey = characters.children[i].body.y;
+            if (Math.abs(x - ex) < range && Math.abs(y - ey) < range) {
+                var estr = characters.children[i].strength;
+                if (estr > str) {
+		    var len = Math.sqrt((x * x) + (y * y));
+                    dir.x = (ex - x)/len;
+		    dir.y = (ey - y)/len;
+                }
+		else {
+		    var len = Math.sqrt((x * x) + (y * y));
+		    dir.x = -(ex - x)/len;
+		    dir.y = -(ey - y)/len;
+		}
+		found = true;
+		break;
+            }
+        }
+    }
+    if(found == false){
+      dir.x = Math.random();
+      dir.y = Math.random();
+      var len = Math.sqrt((x * x) + (y * y));
+      dir.x = dir.x/len;
+      dir.y = dir.y/len;
+    }
+    return dir;
 }
