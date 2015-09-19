@@ -1,14 +1,16 @@
-function organism(id, str, intl, speed) {
+function Organism(id, name, str, intl, speed) {
     //Creates new organism
     this.id = id;
+    this.name = name;
     this.strength = str;
     this.intelligence = intl;
     this.speed = speed;
+    this.dir = {x:0, y:0};
 }
 
-function createOrganism_A(id, str, intl, speed) {
+function createOrganism_A(id, name, str, intl, speed) {
     //Make new organism with hard coded stats
-    var org = new organism(id, str, intl, speed);
+    var org = new Organism(id, name, str, intl, speed);
     return org;
 }
 
@@ -22,6 +24,7 @@ var HEIGHT = 600;
 var STARTORG = 5;
 var start = false;
 var yummy;
+var cellCount = 0;
 
 function getStrValue() {
     var strValue = document.getElementById("inputStrength").value;
@@ -75,8 +78,9 @@ window.onload = function() {
                     if (!start) {
                         for (var i = 0; i < STARTORG; i++) {
                             player = characters.create(game.world.width * Math.random(), game.world.height * Math.random(), 'dude');
-                            player.org = new createOrganism_A(1, getStrValue(), getIntValue(), getSpeedValue());
+                            player.org = new createOrganism_A(1, cellCount, getStrValue(), getIntValue(), getSpeedValue());
                             player.org.timeout = 0;
+			    cellCount++;
                         }
                         start = true;
                         yummy = game.add.group();
@@ -106,8 +110,8 @@ window.onload = function() {
             var speed = e1.speed;
 
             player = characters.create(game.world.width * Math.random(), game.world.height * Math.random(), 'dude');
-            player.org = new Organism(e1.id, strength, intelligence, speed);
-
+            player.org = new Organism(e1.id,cellCount, strength, intelligence, speed);
+	    cellCount++;
             // if (e1.intelligence < e2.intelligence) {
             //     intelligence = e1.intelligence * 1.1;
             // }
@@ -130,8 +134,6 @@ window.onload = function() {
             // both parents remaining life span decreases
             e1.strength -= 2;
             e2.strength -= 2;
-
-            return organism;
         }
     }
 
@@ -151,65 +153,64 @@ window.onload = function() {
                 //loop through all characters
                 if (char.org.timeout == 30) {
                     char.org.timeout = 0;
-		    var dir = chooseDir(char);
-		    console.log(dir);
-                    char.body.velocity.x = char.org.speed * dir.x;
-		    char.body.velocity.y = char.org.speed * dir.y;
+		    char.org.dir = chooseDir(char);
+                    char.body.velocity.x = char.org.speed * char.org.dir.x;
+		    char.body.velocity.y = char.org.speed * char.org.dir.y;
                 } else {
                     char.org.timeout += 1;
                 }
 
                 if (char.body.x >= (WIDTH - char.width)) {
-                    char.body.velocity.x = char.org.speed;
+                    char.body.velocity.x = char.org.speed * -char.org.dir.x;
                 } else if (char.body.x <= 0) {
-                    char.body.velocity.x = char.org.speed;
+                    char.body.velocity.x = char.org.speed * -char.org.dir.x;
                 }
                 if (char.body.y >= (HEIGHT - char.height)) {
-                    char.body.velocity.y = char.org.speed;
+                    char.body.velocity.y = char.org.speed * -char.org.dir.y;
                 } else if (char.body.y <= 0) {
-                    char.body.velocity.y = char.org.speed;
+                    char.body.velocity.y = char.org.speed * -char.org.dir.y;
                 }
             });
         }
     }
 function chooseDir(currentCell) {
-    var intel = currentCell.intelligence;
-    var str = currentCell.strength;
+    var intel = currentCell.org.intelligence;
+    var str = currentCell.org.strength;
     var x = currentCell.body.x;
     var y = currentCell.body.y;
-    var range = intel * 30; // 30 is arbitrary
+    var range = intel * 10; // 30 is arbitrary
     var smartness = intel * Math.random();
-
+    var found = false;
     var dir = {x: 0, y: 0};
 
     if (smartness > 0.2) {
-	console.log("hi");
         var len = characters.length;
-        var found = false;
         for (var i = 0; i < len; i++) {
-	    console.log(characters.children[i]);
+	    if(characters.children[i].org.name != currentCell.org.name){
             var ex = characters.children[i].x;
             var ey = characters.children[i].y;
             if (Math.abs(x - ex) < range && Math.abs(y - ey) < range) {
+		console.log("in range");
                 var estr = characters.children[i].strength;
                 if (estr > str) {
 		    var len = Math.sqrt((x * x) + (y * y));
-                    dir.x = (ex - x)/len;
-		    dir.y = (ey - y)/len;
+                    dir.x = -(ex - x)/len;
+		    dir.y = -(ey - y)/len;
                 }
 		else {
 		    var len = Math.sqrt((x * x) + (y * y));
-		    dir.x = -(ex - x)/len;
-		    dir.y = -(ey - y)/len;
+		    dir.x = (ex - x)/len;
+		    dir.y = (ey - y)/len;
 		}
 		found = true;
 		break;
             }
+	    }
         }
     }
-    if(found == false){
-      dir.x = Math.random();
-      dir.y = Math.random();
+    if(found === false){
+      dir.x = 10 * Math.random();
+      dir.y = 10 * Math.random();
       var len = Math.sqrt((x * x) + (y * y));
       dir.x = dir.x/len;
       dir.y = dir.y/len;
