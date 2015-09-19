@@ -4,6 +4,7 @@
         this.strength = str;
         this.intelligence = intl;
         this.speed = speed;
+        this.timeout = 0;
     }
 
     function createOrganism_A(){
@@ -44,6 +45,7 @@
 
             characters = game.add.group();
             player = characters.create(32, game.world.height - 150, 'dude');
+            player.org = new createOrganism_A();
 
 
 
@@ -53,6 +55,31 @@
        
             characters.forEach(function(char){
                 //loop through all characters
+                var xdirection;
+                var ydirection;
+                xdirection = Math.round(Math.random());
+                ydirection = Math.round(Math.random());
+
+                if(char.org.timeout == 30){
+                    char.org.timeout = 0;
+                if(xdirection){
+                    char.body.velocity.x = char.org.speed * 20;
+                }
+                else {
+                    char.body.velocity.x = char.org.speed * -20;
+                }
+
+                if(ydirection){
+                    char.body.velocity.y = char.org.speed * 20;
+                }
+                else {
+                    char.body.velocity.y = char.org.speed * -20;
+                }
+                }
+                else {
+                    char.org.timeout += 1;
+                }
+
             });
 
         }
