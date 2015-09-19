@@ -20,6 +20,7 @@ var WIDTH = 800;
 var HEIGHT = 600;
 var STARTORG = 5;
 var start = false;
+var yummy;
 
 function getStrValue() {
     var strValue = document.getElementById("inputStrength").value;
@@ -36,6 +37,11 @@ function getSpeedValue() {
     return speedValue;
 }
 
+function eatsMeat(organism, meat) {
+  meat.kill();
+  organism.strength+=5;
+}
+
 window.onload = function() {
 
     var game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
@@ -49,7 +55,7 @@ window.onload = function() {
         game.load.image('sky', 'assets/sky.png');
         game.load.image('logo', 'phaser.png');
         game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
-
+	game.load.image('meat', 'assets/food.png');
 
     }
 
@@ -79,6 +85,10 @@ window.onload = function() {
                 }
             }
         }
+	yummy = game.add.group();
+	for(var i = 0; i < 30; i++){
+	  var meat = yummy.create(i*100, 0, 'meat');
+	}
     }
 
     function update() {
