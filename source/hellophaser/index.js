@@ -1,5 +1,5 @@
 
-    function organism(str, int, speed){
+    function Organism(str, intl, speed){
         //Creates new organism
         this.strength = str;
         this.intelligence = intl;
@@ -8,7 +8,17 @@
 
     function createOrganism_A(){
         //Make new organism with hard coded stats
-        var organism = new organism();
+        var organism = new Organism(5, 5, 5);
+        return organism;
+    }
+
+    function createOrganism_B(){
+        var organism = new Organism(2, 3, 8);
+        return organism;
+    }
+
+    function createOrganism_C(){
+        var organism = new Organism(6, 1, 4);
         return organism;
     }
 

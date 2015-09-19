@@ -1,39 +1,32 @@
-## Notes
+## Environments
 
-### Environments
-
-#### World
-
+### World
 * Array of Civs (type of cells?)
 * Array of cells
 
 
 
-### Features
-
+## Features
 * Mate by touching
 
 
 
-### Organsims
+## Organsims
 
-#### Traits
-
+### Traits
 * What those traits do
 * how do things start/die
 
-#### Strength
-
+### Strength
 * if you create a cell, cell w/ higher strength wins
 
-#### Intelligence
-
+### Intelligence
 * determines path
 
-#### Speed
+### Speed
 * obvious
 
-#### Types
+### Types **done**
 
 * Organism_A:
 	* Strength: 5
@@ -50,6 +43,6 @@
 
 
 
-### Bonus Features
+#u# Bonus Features
 
 * cells have different resiliences to environmental conditions
