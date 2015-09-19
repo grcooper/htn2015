@@ -37,10 +37,7 @@ function getSpeedValue() {
     return speedValue;
 }
 
-function eatsMeat(organism, meat) {
-    meat.kill();
-    organism.strength += 5;
-}
+
 
 window.onload = function() {
 
@@ -99,10 +96,16 @@ window.onload = function() {
         console.log(e2);
     }
 
+    function eatsMeat(organism, meat) {
+        meat.kill();
+        organism.strength += 5;
+    }
 
     function update() {
 
         game.physics.arcade.collide(characters, characters, collisionHandler, null, this);
+        game.physics.arcade.collide(characters, yummy, eatsMeat, null, this);
+
 
         if (start) {
             characters.forEach(function(char) {
