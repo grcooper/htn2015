@@ -7,7 +7,10 @@ function organism(id, str, intl, speed) {
     this.intelligence = parseInt(intl, 10);
     this.speed = parseInt(speed, 10);
     this.name = NAMECOUNTER;
-    this.dir = {x: 0, y:0};
+    this.dir = {
+        x: 0,
+        y: 0
+    };
     NAMECOUNTER++;
 }
 
@@ -111,7 +114,7 @@ window.onload = function() {
         game.load.image('orgC', 'assets/organismC.png');
         game.load.image('orgD', 'assets/organismD.png');
         game.load.image('meat', 'assets/chocolate.png');
-        
+
 
     }
 
@@ -138,7 +141,7 @@ window.onload = function() {
                             player.org = new createOrganism_A(1, getStrValueA(), getIntValueA(), getSpeedValueA());
                             player.org.timeout = 0;
                         }
-                        
+
                         // for OrgB
                         for (var i = 0; i < STARTORG; i++) {
                             player = characters.create(game.world.width * Math.random() * 0.95, game.world.height * Math.random(), 'orgB');
@@ -153,7 +156,7 @@ window.onload = function() {
                             player.org = new createOrganism_A(3, getStrValueC(), getIntValueC(), getSpeedValueC());
                             player.org.timeout = 0;
                         }
-                        
+
                         // for OrgD
                         for (var i = 0; i < STARTORG; i++) {
                             player = characters.create(game.world.width * Math.random() * 0.95, game.world.height * Math.random(), 'orgD');
@@ -161,7 +164,7 @@ window.onload = function() {
                             player.org = new createOrganism_A(4, getStrValueD(), getIntValueD(), getSpeedValueD());
                             player.org.timeout = 0;
                         }
-                        
+
                         yummy = game.add.group();
                         yummy.enableBody = true;
                         for (var i = 0; i < 30; i++) {
@@ -181,15 +184,14 @@ window.onload = function() {
 
     function collisionHandler(e1, e2) {
 
-          if(e1.org.id != e2.org.id){
-            if(e1.org.strength > e2.org.strength){
+        if (e1.org.id != e2.org.id) {
+            if (e1.org.strength > e2.org.strength) {
                 e2.kill();
-            }
-            else {
+            } else {
                 e1.kill();
             }
-          }
-        
+        }
+
 
         // refer to World.js line 393
         // https://github.com/photonstorm/phaser/blob/v2.4.3/src/physics/arcade/World.js
@@ -230,7 +232,7 @@ window.onload = function() {
     function eatsMeat(organism, meat) {
         meat.kill();
         organism.org.strength += 5;
-	console.log(organism.org.strength);
+        console.log(organism.org.strength);
     }
 
     function update() {
@@ -274,7 +276,7 @@ window.onload = function() {
         var str = currentCell.org.strength;
         var x = currentCell.body.x;
         var y = currentCell.body.y;
-        var range = 1000000;// infinite range for now intel * 10; // 10 is arbitrary
+        var range = 1000000; // infinite range for now intel * 10; // 10 is arbitrary
         var smartness = intel * Math.random();
 
         var dir = {
@@ -282,26 +284,26 @@ window.onload = function() {
             y: 0
         };
 
-	var found = false;
+        var found = false;
         if (smartness > 0.2) {
-           // console.log("hi");
+            // console.log("hi");
             var len = characters.length;
             for (var i = 0; i < len; i++) {
                 var ex = characters.children[i].x;
                 var ey = characters.children[i].y;
                 if (currentCell.org.name != characters.children[i].org.name && currentCell.org.id != characters.children[i].org.id) {
                     if (Math.abs(x - ex) < range && Math.abs(y - ey) < range) {
-		    //console.log("range");
+                        //console.log("range");
                         var estr = characters.children[i].org.strength;
                         if (estr > str) {
-			    var xdiff = ex - x;
-			    var ydiff = ey - y;
+                            var xdiff = ex - x;
+                            var ydiff = ey - y;
                             var len = Math.sqrt((xdiff * xdiff) + (ydiff * ydiff));
                             dir.x = -(xdiff) / len;
                             dir.y = -(ydiff) / len;
                         } else {
-			    var xdiff = ex - x;
-			    var ydiff = ey - y;
+                            var xdiff = ex - x;
+                            var ydiff = ey - y;
                             var len = Math.sqrt((xdiff * xdiff) + (ydiff * ydiff));
                             dir.x = (xdiff) / len;
                             dir.y = (ydiff) / len;
@@ -312,7 +314,7 @@ window.onload = function() {
                 }
             }
         }
-	if (found === false) {
+        if (found === false) {
             dir.x = x - (Math.random() * WIDTH);
             dir.y = y - (Math.random() * HEIGHT);
             var len = Math.sqrt((dir.x * dir.x) + (dir.y * dir.y));
