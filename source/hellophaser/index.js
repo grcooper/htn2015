@@ -22,7 +22,7 @@ function createOrganism_A(id, str, intl, speed) {
 
 var WIDTH = 800;
 var HEIGHT = 600;
-var STARTORG = 5;
+var STARTORG = 3;
 var start = false;
 var yummy;
 
@@ -167,7 +167,7 @@ window.onload = function() {
 
                         yummy = game.add.group();
                         yummy.enableBody = true;
-                        for (var i = 0; i < 30; i++) {
+                        for (var i = 0; i < 15; i++) {
                             var meat = yummy.create(game.world.width * Math.random() * 0.95,
                                 game.world.height * Math.random(),
                                 'meat');
