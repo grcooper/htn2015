@@ -179,14 +179,13 @@ window.onload = function() {
                 }
             }
         }
-
     }
 
     function collisionHandler(e1, e2) {
 
         if (e1.org.id != e2.org.id) {
             if (e1.org.strength > e2.org.strength) {
-                e2.kill();
+		e2.kill();
             } else {
                 e1.kill();
             }
@@ -229,12 +228,6 @@ window.onload = function() {
         }*/
     }
 
-    function eatsMeat(organism, meat) {
-        meat.kill();
-        organism.org.strength += 5;
-        console.log(organism.org.strength);
-    }
-
     function update() {
 
         game.physics.arcade.collide(characters, characters, collisionHandler, null, this);
@@ -242,15 +235,14 @@ window.onload = function() {
 
         if (start) {
             characters.forEach(function(char) {
+		//console.log(char.org.name);
                 //loop through all characters
-                var xdirection;
-                var ydirection;
-                xdirection = Math.round(Math.random());
-                ydirection = Math.round(Math.random());
-
-                if (char.org.timeout === 30) {
+		
+		
+                if(char.org.timeout >= 30) {
+		    char.org.dir = chooseDir(char);
+		    //console.log(char.org.dir);
                     char.org.timeout = 0;
-                    char.org.dir = chooseDir(char);
                     char.body.velocity.x = char.org.speed * char.org.dir.x;
                     char.body.velocity.y = char.org.speed * char.org.dir.y;
                 } else {
@@ -276,7 +268,7 @@ window.onload = function() {
         var str = currentCell.org.strength;
         var x = currentCell.body.x;
         var y = currentCell.body.y;
-        var range = 1000000; // infinite range for now intel * 10; // 10 is arbitrary
+        var range = 10 * intel; // infinite range for now intel * 10; // 10 is arbitrary
         var smartness = intel * Math.random();
 
         var dir = {
@@ -289,6 +281,7 @@ window.onload = function() {
             // console.log("hi");
             var len = characters.length;
             for (var i = 0; i < len; i++) {
+		if(characters.children[i].alive){
                 var ex = characters.children[i].x;
                 var ey = characters.children[i].y;
                 if (currentCell.org.name != characters.children[i].org.name && currentCell.org.id != characters.children[i].org.id) {
@@ -308,15 +301,19 @@ window.onload = function() {
                             dir.x = (xdiff) / len;
                             dir.y = (ydiff) / len;
                         }
+			//console.log("found!");
                         found = true;
+			//console.log(characters.length);
                         break;
                     }
                 }
+		}
             }
         }
         if (found === false) {
-            dir.x = x - (Math.random() * WIDTH);
-            dir.y = y - (Math.random() * HEIGHT);
+	    //console.log("not found");
+            dir.x = Math.random() - 0.5;
+            dir.y = Math.random() - 0.5;
             var len = Math.sqrt((dir.x * dir.x) + (dir.y * dir.y));
             dir.x = dir.x / len;
             dir.y = dir.y / len;
