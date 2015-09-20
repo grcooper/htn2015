@@ -23,21 +23,73 @@ var STARTORG = 5;
 var start = false;
 var yummy;
 
-function getStrValue() {
-    var strValue = document.getElementById("inputStrength").value;
-    return strValue;
+
+// gets values for OrgA
+function getStrValueA() {
+    var strValueA = document.getElementById("inputStrengthA").value;
+    return strValueA;
 }
 
-function getIntValue() {
-    var intValue = document.getElementById("inputIntelligence").value;
-    return intValue;
+function getIntValueA() {
+    var intValueA = document.getElementById("inputIntelligenceA").value;
+    return intValueA;
 }
 
-function getSpeedValue() {
-    var speedValue = document.getElementById("inputSpeed").value;
-    return speedValue;
+function getSpeedValueA() {
+    var speedValueA = document.getElementById("inputSpeedA").value;
+    return speedValueA;
 }
 
+// gets values for OrgB
+function getStrValueB() {
+    var strValueB = document.getElementById("inputStrengthB").value;
+    return strValueB;
+}
+
+function getIntValueB() {
+    var intValueB = document.getElementById("inputIntelligenceB").value;
+    return intValueB;
+}
+
+function getSpeedValueB() {
+    var speedValueB = document.getElementById("inputSpeedB").value;
+    return speedValueB;
+}
+
+// gets values for OrgC
+function getStrValueC() {
+    var strValueC = document.getElementById("inputStrengthC").value;
+    return strValueC;
+}
+
+function getIntValueC() {
+    var intValueC = document.getElementById("inputIntelligenceC").value;
+    return intValueC;
+}
+
+function getSpeedValueC() {
+    var speedValueC = document.getElementById("inputSpeedC").value;
+    return speedValueC;
+}
+
+
+// gets values for OrgD
+function getStrValueD() {
+    var strValueD = document.getElementById("inputStrengthD").value;
+    return strValueD;
+}
+
+function getIntValueD() {
+    var intValueD = document.getElementById("inputIntelligenceD").value;
+    return intValueD;
+}
+
+function getSpeedValueD() {
+    var speedValueD = document.getElementById("inputSpeedD").value;
+    return speedValueD;
+}
+
+// MEAT STUFF
 function eatsMeat(organism, meat) {
     meat.kill();
     organism.strength += 5;
@@ -80,17 +132,36 @@ window.onload = function() {
                 if (e.keyCode === 13) {
                     if (!start) {
                         for (var i = 0; i < STARTORG; i++) {
+                            // for OrgA
                             player = characters.create(game.world.width * Math.random() * 0.95, game.world.height * Math.random(), 'orgA');
                             player.scale.setTo(0.45, 0.45);
-                            player.org = new createOrganism_A(1, getStrValue(), getIntValue(), getSpeedValue());
+                            player.org = new createOrganism_A(1, getStrValueA(), getIntValueA(), getSpeedValueA());
                             player.org.timeout = 0;
                         }
+                        
+                        // for OrgB
                         for (var i = 0; i < STARTORG; i++) {
                             player = characters.create(game.world.width * Math.random() * 0.95, game.world.height * Math.random(), 'orgB');
                             player.scale.setTo(0.45, 0.45);
-                            player.org = new createOrganism_A(2, getStrValue(), getIntValue(), getSpeedValue());
+                            player.org = new createOrganism_A(2, getStrValueB(), getIntValueB(), getSpeedValueB());
                             player.org.timeout = 0;
                         }
+                        // for OrgC
+                        for (var i = 0; i < STARTORG; i++) {
+                            player = characters.create(game.world.width * Math.random() * 0.95, game.world.height * Math.random(), 'orgC');
+                            player.scale.setTo(0.45, 0.45);
+                            player.org = new createOrganism_A(3, getStrValueC(), getIntValueC(), getSpeedValueC());
+                            player.org.timeout = 0;
+                        }
+                        
+                        // for OrgD
+                        for (var i = 0; i < STARTORG; i++) {
+                            player = characters.create(game.world.width * Math.random() * 0.95, game.world.height * Math.random(), 'orgD');
+                            player.scale.setTo(0.45, 0.45);
+                            player.org = new createOrganism_A(4, getStrValueD(), getIntValueD(), getSpeedValueD());
+                            player.org.timeout = 0;
+                        }
+                        
                         yummy = game.add.group();
                         yummy.enableBody = true;
                         for (var i = 0; i < 30; i++) {
