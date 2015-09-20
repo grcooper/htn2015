@@ -133,10 +133,10 @@ window.onload = function() {
     function preload() {
 
         game.load.image('sky', 'assets/sky.png');
-        game.load.image('orgA', 'assets/organismA.png');
+        game.load.image('orgA', 'assets/OrganismA.png');
         game.load.image('orgB', 'assets/OrganismB.png');
-        game.load.image('orgC', 'assets/organismC.png');
-        game.load.image('orgD', 'assets/organismD.png');
+        game.load.image('orgC', 'assets/OrganismC.png');
+        game.load.image('orgD', 'assets/OrganismD.png');
         game.load.image('meat', 'assets/chocolate.png');
 
 
