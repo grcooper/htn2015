@@ -297,21 +297,28 @@ window.onload = function() {
 	      }
             });
         var charlen = characters.length;
+	console.log(charlen);
 	var leftAlive = 0;
+	var tribes = [0,0,0,0];
 	for(var i = 0; i < charlen; i++){
 	  if(characters.children[i].alive){
-	    leftAlive++;
+	    tribes[characters.children[i].org.id - 1]++;
 	  }
-	  if(leftAlive > 1){
-	    break;
-	  } 
 	}
-	if(leftAlive === 1){
+	console.log(tribes);
+	var tribesAlive = 0;
+	for(var q = 0; q < STARTORG; q++){
+	    if(tribes[q] > 0){
+	      tribesAlive++;
+	    }
+	}
+	if(tribesAlive === 1){
 	  roundEnd = true;
 	}
-	else if(leftAlive === 0){
+	else if(tribesAlive === 0){
 	  gameEnd = true;
 	}
+
 	}	
     }
 
