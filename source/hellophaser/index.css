@@ -1,0 +1,53 @@
+body {
+    background-image: url('assets/BACKGROUND.jpg')
+}
+
+
+
+#sidebar {
+    margin-right: 50px;
+    float: left;
+    
+
+}
+
+#creds {
+    text-align: center;
+    
+    
+
+}
+
+
+h1 {
+    font-size: 3em;
+    text-align: center;
+    font-family: cursive;
+    font-stretch: extra-expanded;
+    color: darkred;
+}
+
+h2 {
+    color: mediumpurple; 
+    font-family: Century Gothic;
+    font-size: 20px;
+}
+
+h3 {
+    color: chocolate;
+    font-family: monospace;
+}
+
+#script {
+
+    margin-top: -50px;
+    
+    
+}
+
+
+
+table {
+    margin-top: -30px;
+}
+    
