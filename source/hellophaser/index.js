@@ -41,6 +41,18 @@ function createOrganism_A(id, str, intl, speed) {
     return org;
 }
 
+// destroy sprite arrays and all food
+function destroyShit() {
+    for(var i = 0; i < characters.length; i++) {
+        characters.remove(characters.children[i]);
+    }
+   for(var j = 0; j < yummy.length; j++) {
+       yummy.remove(yummy.children[j]);
+    }
+};
+
+// GLOBAL VARS
+
 var WIDTH = 800;
 var HEIGHT = 600;
 var STARTORG = 4;
@@ -49,6 +61,9 @@ var yummy;
 var SPSCALE = 0.3;
 var roundEnd = false;
 var gameEnd = false;
+var winningStr;
+var winningInt;
+var winningSpeed;
 
 // gets values for OrgA
 function getStrValueA() {
@@ -263,7 +278,122 @@ window.onload = function() {
 	}
 	else if(roundEnd){
 	  alert("Round End");
-	}
+        roundEnd = false;
+        for(var i = 1; i < characters.length; i++) {
+            if(characters.children[i].alive) {
+                winningStr = characters.children[i].org.strength;
+                winningInt = characters.children[i].org.intelligence;
+                winningSpeed = characters.children[i].org.speed;
+                //numRounds++;
+                }
+            }
+        destroyShit();
+         for (var i = 0; i < 15; i++) {
+        var meat = yummy.create(game.world.width * Math.random() * 0.95,
+                                game.world.height * Math.random(), 'meat');
+        meat.scale.setTo(.9, 0.9);
+    }
+    // for OrgA
+    var newStrA = winningStr;
+    var newIntA = winningInt;
+    var newSpeedA = winningSpeed;
+        for(var k = 0; k < 10; k++) {
+            var choice = Math.round(Math.random() * 3);
+            if(choice === 0) {
+                newStrA++;
+            }
+            else if(choice === 1) {
+                newIntA++;
+            }
+            else {
+                newSpeedA++;
+            }
+        }
+         for (var i = 0; i < STARTORG; i++) {
+                            player = characters.create(game.world.width * Math.random() * 0.95, game.world.height * Math.random(), 'orgA');
+                            player.scale.setTo(SPSCALE, SPSCALE);
+                            player.org = new createOrganism_A(1, newStrA, newIntA, newSpeedA);
+                            player.org.timeout = 0;
+                        }
+        // for OrgB
+    var newStrB = winningStr;
+    var newIntB = winningInt;
+    var newSpeedB = winningSpeed;
+        for(var k = 0; k < 10; k++) {
+            var choice = Math.round(Math.random() * 3);
+            if(choice === 0) {
+                newStrB++;
+            }
+            else if(choice === 1) {
+                newIntB++;
+            }
+            else {
+                newSpeedB++;
+            }
+        }
+         for (var i = 0; i < STARTORG; i++) {
+                            // for OrgA
+                            player = characters.create(game.world.width * Math.random() * 0.95, game.world.height * Math.random(), 'orgB');
+                            player.scale.setTo(SPSCALE, SPSCALE);
+                            player.org = new createOrganism_A(2, newStrB, newIntB, newSpeedB);
+                            player.org.timeout = 0;
+                        }
+        
+        // for OrgC
+    var newStrC = winningStr;
+    var newIntC = winningInt;
+    var newSpeedC = winningSpeed;
+        for(var k = 0; k < 10; k++) {
+            var choice = Math.round(Math.random() * 3);
+            if(choice === 0) {
+                newStrC++;
+            }
+            else if(choice === 1) {
+                newIntC++;
+            }
+            else {
+                newSpeedC++;
+            }
+        }
+         for (var i = 0; i < STARTORG; i++) {
+
+                            player = characters.create(game.world.width * Math.random() * 0.95, game.world.height * Math.random(), 'orgC');
+                            player.scale.setTo(SPSCALE, SPSCALE);
+                            player.org = new createOrganism_A(3, newStrC, newIntC, newSpeedC);
+                            player.org.timeout = 0;
+                        }
+        
+        
+        // for OrgD
+        
+    var newStrD = winningStr;
+    var newIntD = winningInt;
+    var newSpeedD = winningSpeed;
+        for(var k = 0; k < 10; k++) {
+            var choice = Math.round(Math.random() * 3);
+            if(choice === 0) {
+                newStrD++;
+            }
+            else if(choice === 1) {
+                newIntD++;
+            }
+            else {
+                newSpeedD++;
+            }
+        }
+         for (var i = 0; i < STARTORG; i++) {
+                            // for OrgA
+                            player = characters.create(game.world.width * Math.random() * 0.95, game.world.height * Math.random(), 'orgD');
+                            player.scale.setTo(SPSCALE, SPSCALE);
+                            player.org = new createOrganism_A(4, newStrD, newIntD, newSpeedD);
+                            player.org.timeout = 0;
+                        }
+        
+        roundEnd = false;
+                
+        
+        
+}
         else if (start) {
             characters.forEach(function(char) {
 		//console.log(char.org.name);

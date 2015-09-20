@@ -1,4 +1,4 @@
-var numRounds = 0;
+// var numRounds = 0;
 var winningStr;
 var winningInt;
 var winningSpeed;
