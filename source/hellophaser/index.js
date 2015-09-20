@@ -64,6 +64,7 @@ var gameEnd = false;
 var winningStr;
 var winningInt;
 var winningSpeed;
+var roundCounter = 0;
 
 // gets values for OrgA
 function getStrValueA() {
@@ -274,10 +275,16 @@ window.onload = function() {
         game.physics.arcade.collide(characters, characters, collisionHandler, null, this);
         game.physics.arcade.collide(characters, yummy, eatsMeat, null, this);
 	if(gameEnd){
-	  alert("GAME OVER");
+	  for(var i = 1; i < characters.length; i++) {
+            if(characters.children[i].alive) {
+                winningStr = characters.children[i].org.strength;
+                winningInt = characters.children[i].org.intelligence;
+                winningSpeed = characters.children[i].org.speed;
+                }
+            }
+	  alert("Game End. Str: " + winningStr + "int: " + winningInt + "Speed: " + winningSpeed);
 	}
 	else if(roundEnd){
-	  alert("Round End");
         roundEnd = false;
         for(var i = 1; i < characters.length; i++) {
             if(characters.children[i].alive) {
@@ -287,6 +294,7 @@ window.onload = function() {
                 //numRounds++;
                 }
             }
+	alert("Round End. Str: " + winningStr + "int: " + winningInt + "Speed: " + winningSpeed);
         destroyShit();
          for (var i = 0; i < 15; i++) {
         var meat = yummy.create(game.world.width * Math.random() * 0.95,
@@ -444,8 +452,12 @@ window.onload = function() {
 	}
 	if(tribesAlive === 1){
 	  roundEnd = true;
+	  roundCounter++;
 	}
 	else if(tribesAlive === 0){
+	  gameEnd = true;
+	}
+	if(roundCounter >= 10){
 	  gameEnd = true;
 	}
 
