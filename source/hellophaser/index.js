@@ -54,9 +54,12 @@ window.onload = function() {
     function preload() {
 
         game.load.image('sky', 'assets/sky.png');
-        game.load.image('logo', 'phaser.png');
-        game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
-        game.load.image('meat', 'assets/food.png');
+        game.load.image('orgA', 'assets/organismA.png');
+        game.load.image('orgB', 'assets/OrganismB.png');
+        game.load.image('orgC', 'assets/organismC.png');
+        game.load.image('orgD', 'assets/organismD.png');
+        game.load.image('meat', 'assets/chocolate.png');
+        
 
     }
 
@@ -77,12 +80,14 @@ window.onload = function() {
                 if (e.keyCode === 13) {
                     if (!start) {
                         for (var i = 0; i < STARTORG; i++) {
-                            player = characters.create(game.world.width * Math.random(), game.world.height * Math.random(), 'dude');
+                            player = characters.create(game.world.width * Math.random(), game.world.height * Math.random(), 'orgA');
+                            player.scale.setTo(0.45, 0.45);
                             player.org = new createOrganism_A(1, getStrValue(), getIntValue(), getSpeedValue());
                             player.org.timeout = 0;
                         }
                         for (var i = 0; i < STARTORG; i++) {
-                            player = characters.create(game.world.width * Math.random(), game.world.height * Math.random(), 'OrganismB');
+                            player = characters.create(game.world.width * Math.random(), game.world.height * Math.random(), 'orgB');
+                            player.scale.setTo(0.45, 0.45);
                             player.org = new createOrganism_A(2, getStrValue(), getIntValue(), getSpeedValue());
                             player.org.timeout = 0;
                         }
@@ -92,6 +97,7 @@ window.onload = function() {
                             var meat = yummy.create(game.world.width * Math.random() * 0.95,
                                 game.world.height * Math.random(),
                                 'meat');
+                            meat.scale.setTo(.9, 0.9);
                         }
                         start = true;
                     }
