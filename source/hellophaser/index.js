@@ -134,8 +134,8 @@ function getSpeedValueD() {
 // MEAT STUFF
 function eatsMeat(organism, meat) {
     meat.kill();
-    organism.strength += 5;
-    organism.vitality += 30;
+    organism.org.strength += 5;
+    organism.org.vitality += 30;
 }
 
 window.onload = function() {
@@ -222,52 +222,15 @@ window.onload = function() {
     }
 
     function collisionHandler(e1, e2) {
-
         if (e1.org.id != e2.org.id) {
             if (e1.org.strength > e2.org.strength) {
-		e1.org.vitality += (e2.org.vitality/2);
+		e1.org.vitality += (e2.org.vitality/3);
 		e2.kill();
             } else {
-		e2.org.vitality += (e2.org.vitality/2);
+		e2.org.vitality += (e2.org.vitality/3);
                 e1.kill();
             }
         }
-
-
-        // refer to World.js line 393
-        // https://github.com/photonstorm/phaser/blob/v2.4.3/src/physics/arcade/World.js
-        // ?? do something with collideCallback, processCallback, callbackContext
-        /*if (e1.id === e2.id) {
-            var strength = (e1.strength + e2.strength) / 2;
-            var intelligence = (e1.intelligence + e2.intelligence) / 2;
-            var speed = e1.speed;
-
-            player = characters.create(game.world.width * Math.random(), game.world.height * Math.random(), 'dude');
-            player.org = new Organism(e1.id, strength, intelligence, speed);
-
-            // if (e1.intelligence < e2.intelligence) {
-            //     intelligence = e1.intelligence * 1.1;
-            // 
-            // else {
-            //     intelligence = e2.intelligence * 1.1;
-            // }
-
-            // switch(e1.id) {
-            //     case 1:
-            //         organism = new Organism(5, intelligence, 5);
-            //         break;
-            //     case 2:
-            //         organism = new Organism(1, intelligence, 8);
-            //         break;
-            //     case 3:
-            //         organsim = new Organism(6, intelligence, 4);
-            //         break;
-            // }
-
-            // both parents remaining life span decreases
-            e1.strength -= 2;
-            e2.strength -= 2;
-        }*/
     }
 
     function update() {
@@ -282,7 +245,7 @@ window.onload = function() {
                 winningSpeed = characters.children[i].org.speed;
                 }
             }
-	  alert("Game End. Str: " + winningStr + "int: " + winningInt + "Speed: " + winningSpeed);
+	  alert("Game End. Str: " + winningStr + " Int: " + winningInt + " Speed: " + winningSpeed);
 	}
 	else if(roundEnd){
         roundEnd = false;
@@ -291,10 +254,9 @@ window.onload = function() {
                 winningStr = characters.children[i].org.strength;
                 winningInt = characters.children[i].org.intelligence;
                 winningSpeed = characters.children[i].org.speed;
-                //numRounds++;
                 }
             }
-	alert("Round End. Str: " + winningStr + "int: " + winningInt + "Speed: " + winningSpeed);
+	alert("Round End. Str: " + winningStr + " Int: " + winningInt + " Speed: " + winningSpeed);
         destroyShit();
          for (var i = 0; i < 15; i++) {
         var meat = yummy.create(game.world.width * Math.random() * 0.95,
@@ -302,6 +264,8 @@ window.onload = function() {
         meat.scale.setTo(.9, 0.9);
     }
     // for OrgA
+    //increase int for gaining a generation
+    winningInt = winningInt + 10;
     var newStrA = winningStr;
     var newIntA = winningInt;
     var newSpeedA = winningSpeed;
@@ -423,19 +387,38 @@ window.onload = function() {
                 }
 
                 if (char.body.x >= (WIDTH - char.width)) {
-                    char.body.velocity.x = char.org.speed * -char.org.dir.x;
-                } else if (char.body.x <= 0) {
-                    char.body.velocity.x = char.org.speed * -char.org.dir.x;
+		    if(char.body.x > WIDTH){
+		      char.kill();
+		    }
+		    else {
+		      char.body.velocity.x = char.org.speed * -char.org.dir.x;
+		    }
+		} else if (char.body.x <= 0) {
+		    if(char.body.x < (0 - char.width)){
+		      char.kill();
+		    }
+		    else {
+		      char.body.velocity.x = char.org.speed * -char.org.dir.x;
+		    }
                 }
                 if (char.body.y >= (HEIGHT - char.height)) {
-                    char.body.velocity.y = char.org.speed * -char.org.dir.y;
-                } else if (char.body.y <= 0) {
-                    char.body.velocity.y = char.org.speed * -char.org.dir.y;
-                }
+                    if(char.body.y > HEIGHT){
+		      char.kill();
+		    }
+		    else {
+		      char.body.velocity.y = char.org.speed * -char.org.dir.y;
+		    }
+		} else if (char.body.y <= 0) {
+                    if(char.body.y < (0 - char.height)){
+		      char.kill();
+		    }
+		    else {
+		      char.body.velocity.y = char.org.speed * -char.org.dir.y;
+		    }
+		}
 	      }
             });
         var charlen = characters.length;
-	console.log(charlen);
 	var leftAlive = 0;
 	var tribes = [0,0,0,0];
 	for(var i = 0; i < charlen; i++){
@@ -443,7 +426,6 @@ window.onload = function() {
 	    tribes[characters.children[i].org.id - 1]++;
 	  }
 	}
-	console.log(tribes);
 	var tribesAlive = 0;
 	for(var q = 0; q < STARTORG; q++){
 	    if(tribes[q] > 0){
@@ -480,7 +462,8 @@ window.onload = function() {
         var found = false;
 	var foodfound = false;
 
-        if (smartness > 0.2) {
+        if (smartness > 5) {
+	    if(str <= intel){
 	    var foodlen = yummy.length;
 	    for(var q = 0; q < foodlen; q++){
 	      if(yummy.children[q].alive){
@@ -498,6 +481,8 @@ window.onload = function() {
 		}
 	      }
 	    }
+	    }
+	    else{
 	    if(!foodfound){
             // console.log("hi");
             var len = characters.length;
@@ -509,18 +494,18 @@ window.onload = function() {
                     if (Math.abs(x - ex) < range && Math.abs(y - ey) < range) {
                         //console.log("range");
                         var estr = characters.children[i].org.strength;
-                        if (estr > str) {
-                            var xdiff = ex - x;
-                            var ydiff = ey - y;
-                            var len = Math.sqrt((xdiff * xdiff) + (ydiff * ydiff));
-                            dir.x = -(xdiff) / len;
-                            dir.y = -(ydiff) / len;
-                        } else {
+                        if (estr < str && smartness > 10) {
                             var xdiff = ex - x;
                             var ydiff = ey - y;
                             var len = Math.sqrt((xdiff * xdiff) + (ydiff * ydiff));
                             dir.x = (xdiff) / len;
                             dir.y = (ydiff) / len;
+                        } else {
+                            var xdiff = ex - x;
+                            var ydiff = ey - y;
+                            var len = Math.sqrt((xdiff * xdiff) + (ydiff * ydiff));
+                            dir.x = -(xdiff) / len;
+                            dir.y = -(ydiff) / len;
                         }
 			//console.log("found!");
                         found = true;
@@ -530,6 +515,7 @@ window.onload = function() {
                 }
 		}
             }
+	    }
 	    }
         }
         if (found === false) {
