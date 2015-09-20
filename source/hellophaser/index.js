@@ -80,13 +80,13 @@ window.onload = function() {
                 if (e.keyCode === 13) {
                     if (!start) {
                         for (var i = 0; i < STARTORG; i++) {
-                            player = characters.create(game.world.width * Math.random(), game.world.height * Math.random(), 'orgA');
+                            player = characters.create(game.world.width * Math.random() * 0.95, game.world.height * Math.random(), 'orgA');
                             player.scale.setTo(0.45, 0.45);
                             player.org = new createOrganism_A(1, getStrValue(), getIntValue(), getSpeedValue());
                             player.org.timeout = 0;
                         }
                         for (var i = 0; i < STARTORG; i++) {
-                            player = characters.create(game.world.width * Math.random(), game.world.height * Math.random(), 'orgB');
+                            player = characters.create(game.world.width * Math.random() * 0.95, game.world.height * Math.random(), 'orgB');
                             player.scale.setTo(0.45, 0.45);
                             player.org = new createOrganism_A(2, getStrValue(), getIntValue(), getSpeedValue());
                             player.org.timeout = 0;
@@ -175,7 +175,7 @@ window.onload = function() {
                 xdirection = Math.round(Math.random());
                 ydirection = Math.round(Math.random());
 
-                if (char.org.timeout == 30) {
+                if (char.org.timeout === 30) {
                     char.org.timeout = 0;
                     char.org.dir = chooseDir(char);
                     char.body.velocity.x = char.org.speed * char.org.dir.x;
@@ -203,13 +203,14 @@ window.onload = function() {
         var str = currentCell.org.strength;
         var x = currentCell.body.x;
         var y = currentCell.body.y;
-        var range = intel * 8; // 8 is arbitrary
+        var range = 1000000;// infinite range for now intel * 10; // 10 is arbitrary
         var smartness = intel * Math.random();
 
         var dir = {
             x: 0,
             y: 0
         };
+
 	var found = false;
         if (smartness > 0.2) {
            // console.log("hi");
@@ -240,9 +241,9 @@ window.onload = function() {
                 }
             }
         }
-        if (found == false) {
-            dir.x = Math.random() - 0.5;
-            dir.y = Math.random() - 0.5;
+	if (found === false) {
+            dir.x = x - (Math.random() * WIDTH);
+            dir.y = y - (Math.random() * HEIGHT);
             var len = Math.sqrt((dir.x * dir.x) + (dir.y * dir.y));
             dir.x = dir.x / len;
             dir.y = dir.y / len;
