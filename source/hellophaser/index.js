@@ -7,11 +7,32 @@ function organism(id, str, intl, speed) {
     this.intelligence = parseInt(intl, 10);
     this.speed = parseInt(speed, 10);
     this.name = NAMECOUNTER;
+    this.vitality = 100;
     this.dir = {
         x: 0,
         y: 0
     };
     NAMECOUNTER++;
+}
+
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex ;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
 }
 
 function createOrganism_A(id, str, intl, speed) {
@@ -22,9 +43,10 @@ function createOrganism_A(id, str, intl, speed) {
 
 var WIDTH = 800;
 var HEIGHT = 600;
-var STARTORG = 3;
+var STARTORG = 4;
 var start = false;
 var yummy;
+var SPSCALE = 0.3;
 
 
 // gets values for OrgA
@@ -96,6 +118,7 @@ function getSpeedValueD() {
 function eatsMeat(organism, meat) {
     meat.kill();
     organism.strength += 5;
+    organism.health += 50;
 }
 
 window.onload = function() {
@@ -137,7 +160,7 @@ window.onload = function() {
                         for (var i = 0; i < STARTORG; i++) {
                             // for OrgA
                             player = characters.create(game.world.width * Math.random() * 0.95, game.world.height * Math.random(), 'orgA');
-                            player.scale.setTo(0.45, 0.45);
+                            player.scale.setTo(SPSCALE, SPSCALE);
                             player.org = new createOrganism_A(1, getStrValueA(), getIntValueA(), getSpeedValueA());
                             player.org.timeout = 0;
                         }
@@ -145,14 +168,14 @@ window.onload = function() {
                         // for OrgB
                         for (var i = 0; i < STARTORG; i++) {
                             player = characters.create(game.world.width * Math.random() * 0.95, game.world.height * Math.random(), 'orgB');
-                            player.scale.setTo(0.45, 0.45);
+                            player.scale.setTo(SPSCALE, SPSCALE);
                             player.org = new createOrganism_A(2, getStrValueB(), getIntValueB(), getSpeedValueB());
                             player.org.timeout = 0;
                         }
                         // for OrgC
                         for (var i = 0; i < STARTORG; i++) {
                             player = characters.create(game.world.width * Math.random() * 0.95, game.world.height * Math.random(), 'orgC');
-                            player.scale.setTo(0.45, 0.45);
+                            player.scale.setTo(SPSCALE, SPSCALE);
                             player.org = new createOrganism_A(3, getStrValueC(), getIntValueC(), getSpeedValueC());
                             player.org.timeout = 0;
                         }
@@ -160,7 +183,7 @@ window.onload = function() {
                         // for OrgD
                         for (var i = 0; i < STARTORG; i++) {
                             player = characters.create(game.world.width * Math.random() * 0.95, game.world.height * Math.random(), 'orgD');
-                            player.scale.setTo(0.45, 0.45);
+                            player.scale.setTo(SPSCALE, SPSCALE);
                             player.org = new createOrganism_A(4, getStrValueD(), getIntValueD(), getSpeedValueD());
                             player.org.timeout = 0;
                         }
@@ -171,11 +194,11 @@ window.onload = function() {
                             var meat = yummy.create(game.world.width * Math.random() * 0.95,
                                 game.world.height * Math.random(),
                                 'meat');
-                            meat.scale.setTo(.9, 0.9);
+                            meat.scale.setTo(0.8, 0.8);
                         }
                         start = true;
                     }
-
+		    shuffle(characters.children);
                 }
             }
         }
@@ -186,8 +209,10 @@ window.onload = function() {
         if (e1.org.id != e2.org.id) {
             if (e1.org.strength > e2.org.strength) {
 		e2.kill();
+		e1.org.vitality += 10;
             } else {
                 e1.kill();
+		e2.org.vitality += 10;
             }
         }
 
@@ -238,8 +263,13 @@ window.onload = function() {
 		//console.log(char.org.name);
                 //loop through all characters
 		
-		
+	      if(char.org.vitality <= 0){
+		char.kill();
+		console.log("unit died of old age");
+	      }
+	      else {
                 if(char.org.timeout >= 30) {
+		    char.org.vitality -= 10;
 		    char.org.dir = chooseDir(char);
 		    //console.log(char.org.dir);
                     char.org.timeout = 0;
@@ -259,6 +289,7 @@ window.onload = function() {
                 } else if (char.body.y <= 0) {
                     char.body.velocity.y = char.org.speed * -char.org.dir.y;
                 }
+	      }
             });
         }
     }
@@ -277,7 +308,27 @@ window.onload = function() {
         };
 
         var found = false;
+	var foodfound = false;
+
         if (smartness > 0.2) {
+	    var foodlen = yummy.length;
+	    for(var q = 0; q < foodlen; q++){
+	      if(yummy.children[q].alive){
+		var fx = yummy.children[q].x;
+		var fy = yummy.children[q].y;
+		if(Math.abs(x - fx) < range && Math.abs(y - fy) < range){
+		  var xdiff = fx - x;
+		  var ydiff = fy - y;
+		  var len = Math.sqrt((xdiff * xdiff) + (ydiff * ydiff));
+		  dir.x = xdiff / len;
+		  dir.y = ydiff / len;
+		  foodfound = true;
+		  found = true;
+		  break;
+		}
+	      }
+	    }
+	    if(!foodfound){
             // console.log("hi");
             var len = characters.length;
             for (var i = 0; i < len; i++) {
@@ -309,6 +360,7 @@ window.onload = function() {
                 }
 		}
             }
+	    }
         }
         if (found === false) {
 	    //console.log("not found");
