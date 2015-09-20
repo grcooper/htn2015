@@ -7,7 +7,7 @@ function organism(id, str, intl, speed) {
     this.intelligence = parseInt(intl, 10);
     this.speed = parseInt(speed, 10);
     this.name = NAMECOUNTER;
-    this.vitality = 100;
+    this.vitality = 200;
     this.dir = {
         x: 0,
         y: 0
@@ -47,7 +47,8 @@ var STARTORG = 4;
 var start = false;
 var yummy;
 var SPSCALE = 0.3;
-
+var roundEnd = false;
+var gameEnd = false;
 
 // gets values for OrgA
 function getStrValueA() {
@@ -118,7 +119,7 @@ function getSpeedValueD() {
 function eatsMeat(organism, meat) {
     meat.kill();
     organism.strength += 5;
-    organism.health += 50;
+    organism.vitality += 30;
 }
 
 window.onload = function() {
@@ -208,11 +209,11 @@ window.onload = function() {
 
         if (e1.org.id != e2.org.id) {
             if (e1.org.strength > e2.org.strength) {
+		e1.org.vitality += (e2.org.vitality/2);
 		e2.kill();
-		e1.org.vitality += 10;
             } else {
+		e2.org.vitality += (e2.org.vitality/2);
                 e1.kill();
-		e2.org.vitality += 10;
             }
         }
 
@@ -230,7 +231,7 @@ window.onload = function() {
 
             // if (e1.intelligence < e2.intelligence) {
             //     intelligence = e1.intelligence * 1.1;
-            // }
+            // 
             // else {
             //     intelligence = e2.intelligence * 1.1;
             // }
@@ -257,19 +258,23 @@ window.onload = function() {
 
         game.physics.arcade.collide(characters, characters, collisionHandler, null, this);
         game.physics.arcade.collide(characters, yummy, eatsMeat, null, this);
-
-        if (start) {
+	if(gameEnd){
+	  alert("GAME OVER");
+	}
+	else if(roundEnd){
+	  alert("Round End");
+	}
+        else if (start) {
             characters.forEach(function(char) {
 		//console.log(char.org.name);
                 //loop through all characters
-		
+	      char.scale.setTo(SPSCALE * (Math.sqrt(char.org.vitality)/Math.sqrt(200)), SPSCALE * (Math.sqrt(char.org.vitality)/Math.sqrt(200)));
 	      if(char.org.vitality <= 0){
 		char.kill();
-		console.log("unit died of old age");
 	      }
 	      else {
                 if(char.org.timeout >= 30) {
-		    char.org.vitality -= 10;
+		    char.org.vitality -= 5;
 		    char.org.dir = chooseDir(char);
 		    //console.log(char.org.dir);
                     char.org.timeout = 0;
@@ -291,7 +296,23 @@ window.onload = function() {
                 }
 	      }
             });
-        }
+        var charlen = characters.length;
+	var leftAlive = 0;
+	for(var i = 0; i < charlen; i++){
+	  if(characters.children[i].alive){
+	    leftAlive++;
+	  }
+	  if(leftAlive > 1){
+	    break;
+	  } 
+	}
+	if(leftAlive === 1){
+	  roundEnd = true;
+	}
+	else if(leftAlive === 0){
+	  gameEnd = true;
+	}
+	}	
     }
 
     function chooseDir(currentCell) {
