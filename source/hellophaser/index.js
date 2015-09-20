@@ -3,9 +3,9 @@ var NAMECOUNTER = 0;
 function organism(id, str, intl, speed) {
     //Creates new organism
     this.id = id;
-    this.strength = str;
-    this.intelligence = intl;
-    this.speed = speed;
+    this.strength = parseInt(str, 10);
+    this.intelligence = parseInt(intl, 10);
+    this.speed = parseInt(speed, 10);
     this.name = NAMECOUNTER;
     this.dir = {x: 0, y:0};
     NAMECOUNTER++;
@@ -152,7 +152,8 @@ window.onload = function() {
 
     function eatsMeat(organism, meat) {
         meat.kill();
-        organism.strength += 5;
+        organism.org.strength += 5;
+	console.log(organism.org.strength);
     }
 
     function update() {
